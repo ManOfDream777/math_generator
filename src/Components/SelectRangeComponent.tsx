@@ -1,7 +1,8 @@
-import {useRef} from "react";
+import {JSXElementConstructor, Key, ReactElement, ReactNode, useRef} from "react";
 import styles from "../assets/modules/form.module.css"
 
-function SelectRangeComponent({numbers_range}: {numbers_range: number[]}) {
+// @ts-ignore
+function SelectRangeComponent({numbers_range, errors_setter}) {
     const start_range = useRef<HTMLSelectElement>(null);
     const end_range = useRef<HTMLSelectElement>(null)
     const error_text = useRef<HTMLParagraphElement>(null)
@@ -19,22 +20,24 @@ function SelectRangeComponent({numbers_range}: {numbers_range: number[]}) {
                 error_text_element?.classList.add(styles.visible)
                 // @ts-ignore
                 error_text_element.textContent = 'Начальное значение не может быть равно конечному'
+                errors_setter(true)
                 return null;
-            }else if (start_range_value > end_range_value) {
+            } else if (start_range_value > end_range_value) {
                 error_text_element?.classList.add(styles.visible)
                 // @ts-ignore
                 error_text_element.textContent = 'Начальное значение должно быть меньше конечного'
+                errors_setter(true)
                 return null;
             }
         }
+        errors_setter(false)
     }
-
     return (
         <div className={styles.select_range_group}>
             <div className={styles.selects}>
                 <label htmlFor="start_range">От какого числа</label>
                 <select ref={start_range} onChange={handleChange} name="start_range" id="start_range">
-                    {numbers_range.map((number, index) => {
+                    {numbers_range.map((number: number, index: number) => {
                         if (index === 0){
                             return <option defaultValue={number} key={number} value={number}>{number}</option>
                         }
@@ -45,7 +48,7 @@ function SelectRangeComponent({numbers_range}: {numbers_range: number[]}) {
             <div className={styles.selects}>
                 <label htmlFor="end_range">До какого числа</label>
                 <select ref={end_range} onChange={handleChange} name="end_range" id="end_range">
-                    {numbers_range.slice(1).map((number, index) => {
+                    {numbers_range.slice(1).map((number: number, index: number) => {
                         if (index === 0){
                             return <option defaultValue={number} key={number} value={number}>{number}</option>
                         }

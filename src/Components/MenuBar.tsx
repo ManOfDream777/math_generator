@@ -3,14 +3,14 @@ import SelectRangeComponent from "./SelectRangeComponent";
 import SelectArithmeticalOperationComponent from "./SelectArithmeticalOperationComponent";
 import SelectIntervalComponent from "./SelectIntervalComponent";
 
-function MenuBar({numbers_range, arithmetical_operations, intervals, handler}: any) {
+function MenuBar({numbers_range, arithmetical_operations, intervals, errors_setter, handler}: any) {
 
     return (
         <div className={styles.menu_bar}>
             <h2>Настройка генератора</h2>
             <form onSubmit={handler} className={styles.form}>
                 <div className={styles.settings_group}>
-                    <SelectRangeComponent numbers_range={numbers_range}/>
+                    <SelectRangeComponent errors_setter={errors_setter} numbers_range={numbers_range}/>
                 </div>
                 <div className={styles.settings_group}>
                     <SelectArithmeticalOperationComponent arithmetical_operations={arithmetical_operations}/>
